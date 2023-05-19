@@ -46,6 +46,25 @@ module "autoscaling" {
   instance_type          = var.instance_type
 }
 
+resource "aws_autoscaling_policy" "as_policy" {
+  name                   = "blog_as_policy"
+  policy_type            = "TargetTrackingScaling"
+  autoscaling_group_name = module.autoscaling.autoscaling_group_name
+
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+
+    target_value = 80.0
+  }
+
+  tags = {
+    Terraform = "true"
+    Environment = "dev"
+  }
+}
+
 module "alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "~> 8.0"
