@@ -58,11 +58,6 @@ resource "aws_autoscaling_policy" "as_policy" {
 
     target_value = 80.0
   }
-
-  tags = {
-    Terraform = "true"
-    Environment = "dev"
-  }
 }
 
 module "alb" {
